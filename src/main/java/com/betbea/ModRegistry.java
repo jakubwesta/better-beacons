@@ -1,0 +1,73 @@
+package com.betbea;
+
+import com.betbea.common.block.BetterBeaconBlock;
+import com.betbea.common.block.ColumnBlock;
+import com.betbea.common.block.CrystalBlock;
+import com.betbea.common.block.enity.BetterBeaconBlockEntity;
+import com.betbea.common.gui.BetterBeaconGuiDescription;
+import com.betbea.util.ColumnMaterial;
+import com.betbea.util.CrystalQuality;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
+import net.minecraft.block.Block;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.tag.TagKey;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
+
+import java.util.HashMap;
+
+public class ModRegistry {
+    private static final HashMap<String, ColumnBlock> COLUMNS = new HashMap<>();
+    private static final HashMap<String, CrystalBlock> CRYSTALS = new HashMap<>();
+
+    public static BetterBeaconBlock BETTER_BEACON_BLOCK = new BetterBeaconBlock();
+    public static BlockEntityType<BetterBeaconBlockEntity> BETTER_BEACON_BLOCK_ENTITY;
+    public static ScreenHandlerType<BetterBeaconGuiDescription> BEACON_SCREEN_HANDLER_TYPE;
+
+    public static final TagKey<Block> COLUMN_BLOCKS = TagKey.of(Registry.BLOCK_KEY, new Identifier(Mod.MODID, "column_blocks"));
+    public static final TagKey<Block> CRYSTAL_BLOCKS = TagKey.of(Registry.BLOCK_KEY, new Identifier(Mod.MODID, "crystal_blocks"));
+
+
+    private static void registerBlock(String id, Block block) {
+        Registry.register(Registry.BLOCK, new Identifier(Mod.MODID, id), block);
+        Registry.register(Registry.ITEM, new Identifier(Mod.MODID, id), new BlockItem(block, new Item.Settings().group(Mod.MOD_ITEM_GROUP)));
+    }
+
+    public static void register() {
+        for (ColumnMaterial material : ColumnMaterial.values()) {
+            if (material == ColumnMaterial.INVALID) {
+                continue;
+            }
+            ColumnBlock column = new ColumnBlock(material);
+            COLUMNS.put(material.getName(), column);
+            registerBlock(column.getId(), COLUMNS.get(material.getName()));
+        }
+        for (CrystalQuality quality : CrystalQuality.values()) {
+            if (quality == CrystalQuality.INVALID) {
+                continue;
+            }
+            CrystalBlock crystal = new CrystalBlock(quality);
+            CRYSTALS.put(quality.getName(), crystal);
+            registerBlock(crystal.getId(), CRYSTALS.get(quality.getName()));
+        }
+        registerBlock("better_beacon", BETTER_BEACON_BLOCK);
+        BETTER_BEACON_BLOCK_ENTITY = Registry.register(
+                Registry.BLOCK_ENTITY_TYPE,
+                new Identifier(Mod.MODID, "better_beacon_block_entity"),
+                FabricBlockEntityTypeBuilder.create(BetterBeaconBlockEntity::new, BETTER_BEACON_BLOCK).build(null));
+        BEACON_SCREEN_HANDLER_TYPE = ScreenHandlerRegistry.registerSimple(new Identifier(Mod.MODID, "better_beacon"), ((syncId, inventory) -> new BetterBeaconGuiDescription(syncId, inventory, ScreenHandlerContext.EMPTY)));
+    }
+
+    public static ColumnBlock getColumn(ColumnMaterial material) {
+        return COLUMNS.get(material.getName());
+    }
+
+    public static CrystalBlock getCrystal(CrystalQuality quality) {
+        return CRYSTALS.get(quality.getName());
+    }
+}

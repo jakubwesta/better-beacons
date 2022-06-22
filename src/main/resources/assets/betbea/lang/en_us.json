@@ -1,0 +1,13 @@
+{
+  "block.betbea.better_beacon": "Beacon",
+
+  "block.betbea._column": "Column",
+  "block.betbea.copper_column": "Copper Column",
+  "block.betbea.gold_column": "Gold Column",
+  "block.betbea.emerald_column": "Emerald Column",
+  "block.betbea.diamond_column": "Diamond Column",
+
+  "block.betbea.matte_crystal": "Matte Crystal",
+  "block.betbea.clear_crystal": "Clear Crystal",
+  "block.betbea.exquisite_crystal": "Exquisite Crystal"
+}

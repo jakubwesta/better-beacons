@@ -1,9 +1,46 @@
-# Fabric Example Mod
+#  Better Beacons Mod
 
-## Setup
+## Tiers:
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+* 1
 
-## License
+* 2
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+* 3
+
+* 4
+
+* 5
+
+* 6, 7, 8, 9
+
+
+## Altars:
+
+
+## Fluids:
+
+
+## Effects:
+
+### Copper:
+Movement boosts:
+* Speed boost
+* Jump boost
+* Step assist
+* Flying speed
+* Swimming speed
+
+### Gold:
+Luck boosts:
+* Mining fortune
+* Looting
+* Foraging fortune
+* 
+
+### Diamond:
+Strength boosts
+
+### Emerald:
+Healing boosts
+
