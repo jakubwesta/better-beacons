@@ -4,6 +4,7 @@
   "package": "com.betbea.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "EndCrystalEntityMixin"
   ],
   "client": [
   ],

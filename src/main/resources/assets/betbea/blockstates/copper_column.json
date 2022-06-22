@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "part=bottom": {
+      "model": "betbea:block/copper_column_bottom"
+    },
+    "part=middle": {
+      "model": "betbea:block/copper_column_middle"
+    },
+    "part=top": {
+      "model": "betbea:block/copper_column_top"
+    }
+  }
+}

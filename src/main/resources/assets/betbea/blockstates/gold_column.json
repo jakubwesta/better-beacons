@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "part=bottom": {
+      "model": "betbea:block/gold_column_bottom"
+    },
+    "part=middle": {
+      "model": "betbea:block/gold_column_middle"
+    },
+    "part=top": {
+      "model": "betbea:block/gold_column_top"
+    }
+  }
+}

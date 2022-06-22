@@ -15,11 +15,11 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class ColumnBlock extends Block {
-    public static final EnumProperty<ColumnPart> COLUMN_PART = EnumProperty.of("column_part", ColumnPart.class);
+    public static final EnumProperty<ColumnPart> COLUMN_PART = EnumProperty.of("part", ColumnPart.class);
     private final ColumnMaterial material;
 
     public ColumnBlock(ColumnMaterial material) {
-        super(FabricBlockSettings.of(Material.STONE).hardness(5f));
+        super(FabricBlockSettings.of(Material.STONE).hardness(5f).requiresTool());
         this.material = material;
         setDefaultState(getStateManager().getDefaultState().with(COLUMN_PART, ColumnPart.BOTTOM));
     }
@@ -56,6 +56,9 @@ public class ColumnBlock extends Block {
         } else if (isDown) {
             world.setBlockState(pos, state.with(COLUMN_PART, ColumnPart.TOP));
         } else if (isUp) {
+            world.setBlockState(pos, state.with(COLUMN_PART, ColumnPart.BOTTOM));
+        }
+        if (state.get(COLUMN_PART).isTop() && !isDown) {
             world.setBlockState(pos, state.with(COLUMN_PART, ColumnPart.BOTTOM));
         }
     }

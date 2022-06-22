@@ -13,7 +13,7 @@ public class CrystalBlock extends Block {
     private final CrystalQuality quality;
 
     public CrystalBlock(CrystalQuality quality) {
-        super(FabricBlockSettings.of(Material.GLASS).hardness(2f));
+        super(FabricBlockSettings.of(Material.GLASS).hardness(2f).requiresTool());
         this.quality = quality;
     }
 

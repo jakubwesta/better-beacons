@@ -22,7 +22,7 @@ import net.minecraft.world.WorldView;
 
 public class BetterBeaconBlock extends BlockWithEntity {
     public BetterBeaconBlock() {
-        super(FabricBlockSettings.of(Material.STONE).hardness(8f));
+        super(FabricBlockSettings.of(Material.STONE).hardness(8f).requiresTool());
     }
 
     @Override
