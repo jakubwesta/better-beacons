@@ -2,7 +2,6 @@ package com.betbea;
 
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
@@ -17,8 +16,8 @@ public class ModLootTables {
             if (source.isBuiltin() && AMETHYST_CLUSTER_LOOT_TABLE_ID.equals(id)) {
                 LootPool.Builder poolBuilder = LootPool.builder()
                                 .rolls(ConstantLootNumberProvider.create(1f))
-                                .conditionally(RandomChanceLootCondition.builder(0.1f))
-                                .with(ItemEntry.builder(Items.ACACIA_BOAT));
+                                .conditionally(RandomChanceLootCondition.builder(Mod.CONFIG.dropChances.clearAmethystShard))
+                                .with(ItemEntry.builder(ModRegistry.CLEAR_AMETHYST_SHARD));
 
                 tableBuilder.pool(poolBuilder);
             }

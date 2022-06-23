@@ -40,7 +40,6 @@ public class BetterBeaconBlockEntity extends BlockEntity implements NamedScreenH
                 columnsPos.add(pos.add(x*2, 0, z*6));
             }
         }
-        Mod.sendLog(columnsPos.toString());
         int index = 0;
         for (BlockPos blockPos : columnsPos) {
             boolean isColumn = true;
@@ -62,11 +61,6 @@ public class BetterBeaconBlockEntity extends BlockEntity implements NamedScreenH
                 entity.columnsData.setInvalidColumn(index);
             }
             index += 1;
-        }
-
-        for (ColumnData data : entity.columnsData.getColumns()) {
-            Mod.sendLog(data.getColumnMaterial().getName());
-            Mod.sendLog(data.getCrystalQuality().getName());
         }
     }
 

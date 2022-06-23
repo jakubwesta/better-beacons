@@ -17,7 +17,7 @@ public class Mod implements ModInitializer {
 	public static ModConfigJsonObject CONFIG;
 	public static final ItemGroup MOD_ITEM_GROUP = FabricItemGroupBuilder.build(
 			new Identifier(MODID, "general"),
-			() -> new ItemStack(Blocks.BEACON)
+			() -> new ItemStack(ModRegistry.BETTER_BEACON_BLOCK)
 	);
 
 	@Override
@@ -26,9 +26,6 @@ public class Mod implements ModInitializer {
 		ModConfig.initializeConfig();
 		ModRegistry.register();
 		ModLootTables.modifyLootTables();
-
-		sendLog(CONFIG.testValueString);
-		sendLog(String.valueOf(CONFIG.testValueInt));
 	}
 
 	public static void sendLog(String message) {

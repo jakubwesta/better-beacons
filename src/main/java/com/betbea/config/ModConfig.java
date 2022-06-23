@@ -11,7 +11,7 @@ import java.nio.file.Path;
 public class ModConfig {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
     private static final Path configPath = FabricLoader.getInstance().getConfigDir();
-    private static final Path configFilePath = configPath.resolve("betbea.json");
+    private static final Path configFilePath = configPath.resolve(Mod.MODID + ".json");
 
     public static void initializeConfig() {
         try {

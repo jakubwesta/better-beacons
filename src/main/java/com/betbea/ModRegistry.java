@@ -4,7 +4,9 @@ import com.betbea.common.block.BetterBeaconBlock;
 import com.betbea.common.block.ColumnBlock;
 import com.betbea.common.block.CrystalBlock;
 import com.betbea.common.block.enity.BetterBeaconBlockEntity;
+import com.betbea.common.block.enity.CrystalBlockEntity;
 import com.betbea.common.gui.BetterBeaconGuiDescription;
+import com.betbea.common.item.ClearAmethystShard;
 import com.betbea.common.item.ExquisiteEnderShard;
 import com.betbea.util.ColumnMaterial;
 import com.betbea.util.CrystalQuality;
@@ -25,8 +27,10 @@ import java.util.HashMap;
 public class ModRegistry {
     private static final HashMap<String, ColumnBlock> COLUMNS = new HashMap<>();
     private static final HashMap<String, CrystalBlock> CRYSTALS = new HashMap<>();
+    private static final HashMap<String, BlockEntityType<CrystalBlockEntity>> CRYSTAL_BLOCK_ENTITIES = new HashMap<>();
 
     public static final ExquisiteEnderShard EXQUISITE_ENDER_SHARD = new ExquisiteEnderShard();
+    public static final ClearAmethystShard CLEAR_AMETHYST_SHARD = new ClearAmethystShard();
 
     public static final BetterBeaconBlock BETTER_BEACON_BLOCK = new BetterBeaconBlock();
     public static BlockEntityType<BetterBeaconBlockEntity> BETTER_BEACON_BLOCK_ENTITY;
@@ -34,6 +38,7 @@ public class ModRegistry {
 
     public static final TagKey<Block> COLUMN_BLOCKS = TagKey.of(Registry.BLOCK_KEY, new Identifier(Mod.MODID, "column_blocks"));
     public static final TagKey<Block> CRYSTAL_BLOCKS = TagKey.of(Registry.BLOCK_KEY, new Identifier(Mod.MODID, "crystal_blocks"));
+    public static final TagKey<Item> CRYSTAL_ITEMS = TagKey.of(Registry.ITEM_KEY, new Identifier(Mod.MODID, "crystal_items"));
 
 
     private static void registerBlock(String id, Block block) {
@@ -54,6 +59,7 @@ public class ModRegistry {
             COLUMNS.put(material.getName(), column);
             registerBlock(column.getId(), COLUMNS.get(material.getName()));
         }
+
         for (CrystalQuality quality : CrystalQuality.values()) {
             if (quality == CrystalQuality.INVALID) {
                 continue;
@@ -61,6 +67,12 @@ public class ModRegistry {
             CrystalBlock crystal = new CrystalBlock(quality);
             CRYSTALS.put(quality.getName(), crystal);
             registerBlock(crystal.getId(), CRYSTALS.get(quality.getName()));
+
+            CRYSTAL_BLOCK_ENTITIES.put(quality.getName(), Registry.register(
+                    Registry.BLOCK_ENTITY_TYPE,
+                    new Identifier(Mod.MODID, crystal.getBlockEntityId()),
+                    FabricBlockEntityTypeBuilder.create((pos, state) -> new CrystalBlockEntity(quality, pos, state), getCrystal(quality)).build()
+            ));
         }
 
         registerBlock("better_beacon", BETTER_BEACON_BLOCK);
@@ -71,6 +83,7 @@ public class ModRegistry {
         BEACON_SCREEN_HANDLER_TYPE = ScreenHandlerRegistry.registerSimple(new Identifier(Mod.MODID, "better_beacon"), ((syncId, inventory) -> new BetterBeaconGuiDescription(syncId, inventory, ScreenHandlerContext.EMPTY)));
 
         registerItem("exquisite_ender_shard", EXQUISITE_ENDER_SHARD);
+        registerItem("clear_amethyst_shard", CLEAR_AMETHYST_SHARD);
     }
 
     public static ColumnBlock getColumn(ColumnMaterial material) {
@@ -79,5 +92,9 @@ public class ModRegistry {
 
     public static CrystalBlock getCrystal(CrystalQuality quality) {
         return CRYSTALS.get(quality.getName());
+    }
+
+    public static BlockEntityType<CrystalBlockEntity> getCrystalBlockEntity(CrystalQuality quality) {
+        return CRYSTAL_BLOCK_ENTITIES.get(quality.getName());
     }
 }
