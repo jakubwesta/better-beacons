@@ -1,46 +1,25 @@
-#  Better Beacons Mod
+#Better Beacons
 
-## Tiers:
+##Beacon mechanics
 
-* 1
+###Column's material power
 
-* 2
+Each properly made column placed on the right spot will give beacon it's material power.
 
-* 3
+Material power is calculated with formula: `columnMaterialPower = baseMaterialPower * crystalStrengthMultiplier`.
+`baseMaterialPower` and `crystalStrengthMultiplier` can be set in config file.
 
-* 4
+First 3 columns of each type will work at `first3` power multiplier.
+Next 3, (4, 5, 6) will work at `second3` multiplier, and so on... up to 12 columns.
+Those values can be set in config as well.
 
-* 5
+####Basic config values:
 
-* 6, 7, 8, 9
+Power of one column will be `1` with matte crystal, `1.75` with cleat and `2.5` with exquisite one.
 
+Max amount of power for one material (12 exquisite crystals and 12 columns of same material) is equal:
+`maxPower = 3 * 2.5 + 3 * 2.5 * 0.75 + 3 * 2.5 * 0.5 + 3 * 2.5 * 0.25`, which is equal to `18.75`
 
-## Altars:
+But with different materials (3x each one): `eachMaterialPower = 3 * 2.5 = 7.5`
 
-
-## Fluids:
-
-
-## Effects:
-
-### Copper:
-Movement boosts:
-* Speed boost
-* Jump boost
-* Step assist
-* Flying speed
-* Swimming speed
-
-### Gold:
-Luck boosts:
-* Mining fortune
-* Looting
-* Foraging fortune
-* 
-
-### Diamond:
-Strength boosts
-
-### Emerald:
-Healing boosts
-
+***Basically the more columns of the same material you have, the less power they have.***
