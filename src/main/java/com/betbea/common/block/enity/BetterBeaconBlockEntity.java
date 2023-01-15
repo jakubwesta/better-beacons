@@ -5,10 +5,7 @@ import com.betbea.ModRegistry;
 import com.betbea.common.block.ColumnBlock;
 import com.betbea.common.block.CrystalBlock;
 import com.betbea.common.gui.BetterBeaconGuiDescription;
-import com.betbea.util.AllColumnsData;
-import com.betbea.util.ColumnData;
-import com.betbea.util.ColumnMaterial;
-import com.betbea.util.ModUtils;
+import com.betbea.util.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,7 +14,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
@@ -25,11 +21,13 @@ import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class BetterBeaconBlockEntity extends BlockEntity implements NamedScreenHandlerFactory {
     public AllColumnsData columnsData = new AllColumnsData(this);
     public HashMap<ColumnMaterial, Integer> columnAmount = new HashMap<>();
     public HashMap<ColumnMaterial, Float> materialsPower = new HashMap<>();
+    public HashMap<BeaconEffect, Boolean> effectReqsMet = new HashMap<>();
 
     public BetterBeaconBlockEntity(BlockPos pos, BlockState state) {
         super(ModRegistry.BETTER_BEACON_BLOCK_ENTITY, pos, state);
@@ -38,6 +36,9 @@ public class BetterBeaconBlockEntity extends BlockEntity implements NamedScreenH
                 materialsPower.put(material, 0f);
                 columnAmount.put(material, 0);
             }
+        }
+        for (BeaconEffect effect : BeaconEffect.values()) {
+            effectReqsMet.put(effect, false);
         }
     }
 
@@ -53,6 +54,8 @@ public class BetterBeaconBlockEntity extends BlockEntity implements NamedScreenH
         }
         int index = 0;
         for (BlockPos blockPos : columnsPos) {
+            Mod.sendDebugLog("index: " + index + " -----> " + "blockPos: " + blockPos);
+
             boolean isColumn = true;
             MutableText blockName = world.getBlockState(blockPos).getBlock().getName();
             for (int y = 0; y <= 2; y += 1) {
@@ -90,6 +93,12 @@ public class BetterBeaconBlockEntity extends BlockEntity implements NamedScreenH
         System.out.println(newPowersMap);
         entity.columnAmount = columnAmount;
         System.out.println(columnAmount);
+
+        // Updating met requirements for effects
+        for (BeaconEffect effect : BeaconEffect.values()) {
+            entity.effectReqsMet.replace(effect, entity.meetsRequirements(effect));
+            Mod.sendDebugLog(effect.id + " -> " + entity.meetsRequirements(effect));
+        }
     }
 
     private static float getAmountMultiplier(int index) {
@@ -104,6 +113,16 @@ public class BetterBeaconBlockEntity extends BlockEntity implements NamedScreenH
         } else {
             throw new IllegalArgumentException();
         }
+    }
+
+    public boolean meetsRequirements(BeaconEffect effect) {
+        boolean reqsMet = true;
+        for (Map.Entry<ColumnMaterial, Float> entry : effect.requirements.entrySet()) {
+            if (this.materialsPower.get(entry.getKey()) < entry.getValue()) {
+                reqsMet = false;
+            }
+        }
+        return reqsMet;
     }
 
     @Override

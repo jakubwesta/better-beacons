@@ -20,8 +20,8 @@ public class EndCrystalEntityMixin {
         Random random = new Random();
         int dropChance = Math.round(Mod.CONFIG.dropChances.exquisiteEnderShard * 100);
         boolean shouldDrop = (random.nextInt(100) + 1 <= dropChance);
-        Mod.sendLog(String.valueOf(random.nextInt(100) + 1));
-        Mod.sendLog(String.valueOf(dropChance));
+        Mod.sendDebugLog(String.valueOf(random.nextInt(100) + 1));
+        Mod.sendDebugLog(String.valueOf(dropChance));
         if (shouldDrop) {
             EndCrystalEntity entity = ((EndCrystalEntity)(Object)this);
             ItemStack exquisiteIngredient = new ItemStack(ModRegistry.EXQUISITE_ENDER_SHARD);

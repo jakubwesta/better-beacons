@@ -14,6 +14,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityT
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.screen.ScreenHandlerContext;
@@ -50,6 +51,10 @@ public class ModRegistry {
         Registry.register(Registry.ITEM, new Identifier(Mod.MODID, id), item);
     }
 
+    private static void registerEffect(String id, StatusEffect effect) {
+        Registry.register(Registry.STATUS_EFFECT, new Identifier(Mod.MODID, id), effect);
+    }
+
     public static void register() {
         for (ColumnMaterial material : ColumnMaterial.values()) {
             if (material == ColumnMaterial.INVALID) {
@@ -84,6 +89,8 @@ public class ModRegistry {
 
         registerItem("exquisite_ender_shard", EXQUISITE_ENDER_SHARD);
         registerItem("clear_amethyst_shard", CLEAR_AMETHYST_SHARD);
+
+
     }
 
     public static ColumnBlock getColumn(ColumnMaterial material) {

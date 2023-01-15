@@ -26,4 +26,10 @@ public class ModConfigJsonObject {
         public float third3 = 0.5f;
         public float fourth3 = 0.25f;
     }
+
+    public EffectsRequirements effectsRequirements = new EffectsRequirements();
+
+    public class EffectsRequirements {
+        public EffectRequirements haste = new EffectRequirements.EffectRequirementsBuilder().setCopperPower(1.5f).setGoldPower(1f).build();
+    }
 }

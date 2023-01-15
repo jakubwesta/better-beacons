@@ -4,7 +4,7 @@ import com.betbea.config.ModConfig;
 import com.betbea.config.ModConfigJsonObject;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.minecraft.block.Blocks;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
@@ -22,10 +22,16 @@ public class Mod implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		sendLog("Initializing Better Beacons...");
+		sendDebugLog("Initializing Better Beacons...");
 		ModConfig.initializeConfig();
 		ModRegistry.register();
 		ModLootTables.modifyLootTables();
+	}
+
+	public static void sendDebugLog(String message) {
+		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+			LOGGER.info(message);
+		}
 	}
 
 	public static void sendLog(String message) {
