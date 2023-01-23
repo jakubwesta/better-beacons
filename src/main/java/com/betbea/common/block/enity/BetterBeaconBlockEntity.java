@@ -11,16 +11,21 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.predicate.entity.DistancePredicate;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Position;
+import net.minecraft.util.math.PositionImpl;
 import net.minecraft.world.World;
+import org.apache.commons.codec.digest.Md5Crypt;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BetterBeaconBlockEntity extends BlockEntity implements NamedScreenHandlerFactory {
@@ -28,6 +33,8 @@ public class BetterBeaconBlockEntity extends BlockEntity implements NamedScreenH
     public HashMap<ColumnMaterial, Integer> columnAmount = new HashMap<>();
     public HashMap<ColumnMaterial, Float> materialsPower = new HashMap<>();
     public HashMap<BeaconEffect, Boolean> effectReqsMet = new HashMap<>();
+    public List<PlayerEntity> playersInRange = new ArrayList<>();
+    public int range = Mod.CONFIG.baseBeaconRange;
 
     public BetterBeaconBlockEntity(BlockPos pos, BlockState state) {
         super(ModRegistry.BETTER_BEACON_BLOCK_ENTITY, pos, state);
@@ -54,7 +61,6 @@ public class BetterBeaconBlockEntity extends BlockEntity implements NamedScreenH
         }
         int index = 0;
         for (BlockPos blockPos : columnsPos) {
-            Mod.sendDebugLog("index: " + index + " -----> " + "blockPos: " + blockPos);
 
             boolean isColumn = true;
             MutableText blockName = world.getBlockState(blockPos).getBlock().getName();
@@ -90,14 +96,23 @@ public class BetterBeaconBlockEntity extends BlockEntity implements NamedScreenH
             ModUtils.increaseMapFloat(newPowersMap, column.getColumnMaterial(), column.getMaterialPower() * getAmountMultiplier(columnAmount.get(column.getColumnMaterial())));
         }
         entity.materialsPower = newPowersMap;
-        System.out.println(newPowersMap);
         entity.columnAmount = columnAmount;
-        System.out.println(columnAmount);
 
         // Updating met requirements for effects
         for (BeaconEffect effect : BeaconEffect.values()) {
             entity.effectReqsMet.replace(effect, entity.meetsRequirements(effect));
-            Mod.sendDebugLog(effect.id + " -> " + entity.meetsRequirements(effect));
+        }
+
+        // Detecting players in range of beacon
+        for (PlayerEntity player : world.getPlayers()) {
+            if (Math.abs(player.getPos().x - pos.getX()) > entity.range ||
+                Math.abs(player.getPos().z - pos.getZ()) > entity.range) {
+                entity.playersInRange.remove(player);
+            } else {
+                if (!entity.playersInRange.contains(player)) {
+                    entity.playersInRange.add(player);
+                }
+            }
         }
     }
 

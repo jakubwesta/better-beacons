@@ -1,0 +1,44 @@
+COPPER (gathering):
+- haste, faster mining
+- chance for extra blocks when mining (only stone, sand, gravel etc)
+- mining fatigue resistance
+- fortune boost for mining drops
+- auto smelting
+- silk touch
+- vein mining, configurable [!]
+
+
+GOLD (movement):
+- speed
+- double jump -> triple jump
+- jump boost
+- feather falling -> flight [!]
+- faster movement in water
+
+
+
+DIAMOND (combat):
+- resistance, less damage taken
+- strength, more damage dealt
+- drawing, faster drawing of the bow
+- regeneration
+- vampirism, stealing hp from attacking on mobs
+- freezing after hitting mobs
+- magical shield around you [!]
+
+
+
+EMERALD (utility):
+- decreased food usage, you need to eat less often -> no food usage
+- magnet, automatically pickup items around you
+- more experience gain
+- faster crop growth
+- higher knockback reistance
+- night vision
+- water breathing
+
+
+
+UPGRADES:
+- range upgrade, can be placed on top the beacon
+
